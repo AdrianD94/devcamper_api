@@ -35,6 +35,7 @@ const BootcampSchema = new mongoose.Schema(
         "Please add a valid email",
       ],
     },
+
     address: {
       type: String,
       required: [true, "Please add an address"],
@@ -95,8 +96,18 @@ const BootcampSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // courses: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Course",
+    //   },
+    // ],
   },
-  { timestamps: true }
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    timestamps: true,
+  }
 );
 
 BootcampSchema.pre("save", function (next) {
@@ -108,7 +119,7 @@ BootcampSchema.pre("save", async function (next) {
   const loc = await geocoder.geocode(this.address);
   this.location = {
     type: "Point",
-    coordinates: [loc[0].longitude,loc[0].latitude],
+    coordinates: [loc[0].longitude, loc[0].latitude],
     formattedAddress: loc[0].formattedAddress,
     street: loc[0].streetName,
     city: loc[0].city,
@@ -117,8 +128,20 @@ BootcampSchema.pre("save", async function (next) {
     country: loc[0].countryCode,
   };
 
-  this.address=undefined;
+  this.address = undefined;
   next();
+});
+
+BootcampSchema.pre("remove", async function (next) {
+  await this.model("Course").deleteMany({ bootcamp: this._id });
+  next();
+});
+
+BootcampSchema.virtual("courses", {
+  ref: "Course",
+  localField: "_id",
+  foreignField: "bootcamp",
+  justOne: false,
 });
 
 module.exports = mongoose.model("Bootcamp", BootcampSchema);

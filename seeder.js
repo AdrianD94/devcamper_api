@@ -3,12 +3,15 @@ const fs = require("fs");
 const colors = require("colors");
 const mongoose = require("mongoose");
 const Bootcamp = require("./models/Bootcamp");
+const Course = require("./models/Course");
 
 dotenv.config({ path: "./config/config.env" });
 
 const bootcamps = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/bootcamps.json`)
 );
+
+const courses = JSON.parse(fs.readFileSync(`${__dirname}/_data/courses.json`));
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -18,7 +21,9 @@ mongoose.connect(process.env.MONGO_URI, {
 
 const importData = async () => {
   try {
+    console.log(`Running seeder...`.yellow);
     await Bootcamp.create(bootcamps);
+    await Course.create(courses);
     console.log("Data imported".green.inverse);
     process.exit();
   } catch (error) {
@@ -28,7 +33,9 @@ const importData = async () => {
 
 const deleteData = async () => {
   try {
+    console.log(`Running seeder...`.yellow);
     await Bootcamp.deleteMany();
+    await Course.deleteMany();
     console.log("Data deleted".red.inverse);
     process.exit();
   } catch (error) {
