@@ -3,7 +3,6 @@ const asyncHandler = require("../middleware/async");
 const Course = require("../models/Course");
 const Bootcamp = require("../models/Bootcamp");
 
-
 //@desc Get all courses
 //@route GET /api/v1/courses
 //@route GET /api/v1/bootcamps/:bootcampId/courses
@@ -50,6 +49,7 @@ exports.getCourse = asyncHandler(async (req, res, next) => {
 
 exports.addCourse = asyncHandler(async (req, res, next) => {
   req.body.bootcamp = req.params.bootcampId;
+  req.body.user = req.user.id;
 
   const bootcamp = await Bootcamp.findById(req.params.bootcampId);
 
@@ -61,7 +61,14 @@ exports.addCourse = asyncHandler(async (req, res, next) => {
       )
     );
   }
-
+  if (bootcamp.user.toString() !== req.user.id && req.user.role !== "admin") {
+    return next(
+      new ErrorResponse(
+        `User with ID ${req.user.id} is not authorized to add a course to ${bootcamp._id}`,
+        401
+      )
+    );
+  }
   const course = await Course.create(req.body);
 
   res.status(200).json({
@@ -75,10 +82,8 @@ exports.addCourse = asyncHandler(async (req, res, next) => {
 //@access Private
 
 exports.updateCourse = asyncHandler(async (req, res, next) => {
-  const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
+  let course = await Course.findById(req.params.id);
+  
   if (!course) {
     return next(
       new ErrorResponse(
@@ -87,6 +92,18 @@ exports.updateCourse = asyncHandler(async (req, res, next) => {
       )
     );
   }
+  if (course.user.toString() !== req.body.user && req.user.role != "admin") {
+    return next(
+      new ErrorResponse(
+        `User with ID ${req.user.id} is not allowed to update or delete this course`
+      ),
+      401
+    );
+  }
+  course = await Course.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
   res.status(200).json({ success: true, data: course });
 });
 //@desc Delete single course
@@ -103,6 +120,15 @@ exports.deleteCourse = asyncHandler(async (req, res, next) => {
       )
     );
   }
+  if (course.user.toString() !== req.body.user && req.user.role != "admin") {
+    return next(
+      new ErrorResponse(
+        `User with ID ${req.user.id} is not allowed to update or delete this course`
+      ),
+      401
+    );
+  }
+
   await course.remove();
 
   res.status(200).json({ success: true, data: {} });
