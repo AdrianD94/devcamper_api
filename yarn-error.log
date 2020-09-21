@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add devcamper
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add express-mongoose-sanitize
 
 PATH: 
   C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\roman\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files (x86)\Yarn\bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\MongoDB\Server\4.2\bin;C:\flutter\bin;C:\Program Files (x86)\Java\jre1.8.0_251\bin;C:\Program Files\dotnet;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\roman\AppData\Local\Programs\Python\Python38-32\Scripts;C:\Users\roman\AppData\Local\Programs\Python\Python38-32;C:\Users\roman\AppData\Local\Microsoft\WindowsApps;C:\Users\roman\AppData\Roaming\npm;C:\Users\roman\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\roman\AppData\Roaming\Composer\vendor\bin;C:\Users\roman\AppData\Local\Yarn\bin;C:\Users\roman\.dotnet\tools
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/devcamper: Not found
+  Error: https://registry.yarnpkg.com/express-mongoose-sanitize: Not found
       at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66096:18)
       at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140748:22)
       at Request.emit (events.js:315:20)
@@ -47,6 +47,7 @@ npm manifest:
       "mongoose": "^5.10.3",
       "morgan": "^1.10.0",
       "node-geocoder": "^3.27.0",
+      "nodemailer": "^6.4.11",
       "slugify": "^1.4.5"
     },
     "devDependencies": {
@@ -1234,6 +1235,11 @@ Lockfile:
       node-fetch "^2.6.0"
       request "^2.88.0"
       request-promise "^4.2.2"
+  
+  nodemailer@^6.4.11:
+    version "6.4.11"
+    resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.11.tgz#1f00b4ffd106403f17c03f3d43d5945b2677046c"
+    integrity sha512-BVZBDi+aJV4O38rxsUh164Dk1NCqgh6Cm0rQSb9SK/DHGll/DrCMnycVDD7msJgZCnmVa8ASo8EZzR7jsgTukQ==
   
   nodemon@^2.0.4:
     version "2.0.4"

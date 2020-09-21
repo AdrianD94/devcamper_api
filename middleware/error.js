@@ -7,7 +7,7 @@ console.log(err);
   let error = { ...err };
   error.message = err.message;
   if (err.name === "CastError") {
-    const message = `Resource with id of ${err.value} has not been found`;
+    const message = `Resource not found`;
     error = new ErrorResponse(message, 404);
   }
 
